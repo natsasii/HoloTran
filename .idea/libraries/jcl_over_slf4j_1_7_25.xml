@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="jcl-over-slf4j-1.7.25">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jcl-over-slf4j-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-over-slf4j-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/marvin_1.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-jdk14-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xuggle-xuggler-5.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
