@@ -19,11 +19,15 @@ public class VideoFromImage {
 
     private static final int SECONDS_TO_RUN_FOR = 20;
     private static String OUTPUT_FILE;
-    private static String LOCATION;
+    private static String INPUT_LOCATION;
+    private static String OUT_LOCATION;
+    private static int maxSec;
 
-    public VideoFromImage(String outputName, String location) {
-        OUTPUT_FILE = outputName;
-        LOCATION = location;
+    public VideoFromImage(String outputName, String InputLocationName, String out, int num) {
+        this.INPUT_LOCATION = InputLocationName;
+        this.OUT_LOCATION = out;
+        this.OUTPUT_FILE = OUT_LOCATION + outputName + ".mp4";
+        this.maxSec = num/2;
         mainFunction();
     }
     
@@ -34,7 +38,7 @@ public class VideoFromImage {
                 screenBounds.width / 2, screenBounds.height / 2);
         long startTime = System.nanoTime();
 
-        for (int index = 0; index < 15; index++) {
+        for (int index = 0; index < maxSec; index++) {
 
             BufferedImage bgrScreen = getVideoImage();
             System.out.println("time stamp = "+ (System.nanoTime() - startTime));
@@ -56,7 +60,7 @@ public class VideoFromImage {
 
     private static BufferedImage getVideoImage() {
 
-        File imgLoc = new File(LOCATION + indexVideo + ".png");
+        File imgLoc = new File(INPUT_LOCATION + indexVideo + ".png");
         BufferedImage img = null;
         try {
             img = ImageIO.read(imgLoc);
@@ -64,7 +68,7 @@ public class VideoFromImage {
             e.printStackTrace();
         }
         System.out.println(imgLoc.getName());
-        indexVideo += 10;
+        indexVideo += 2;
         return img;
     }
 
