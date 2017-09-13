@@ -12,7 +12,7 @@ import com.xuggle.xuggler.Global;
 
 public class ImageFromVideo extends MediaListenerAdapter {
     
-    public static final double SECONDS_BETWEEN_FRAMES = 10;
+    public static final double SECONDS_BETWEEN_FRAMES = 20;
     
     private static String inputFile;
     private static String outputFilePrefix;
@@ -40,14 +40,6 @@ public class ImageFromVideo extends MediaListenerAdapter {
     
     private static class ImageSnapListener extends MediaListenerAdapter{
 
-//        private final String outputFilePrefix;
-//        private final String setProcess;
-//        
-//        public ImageSnapListener(String location, String set){
-//            this.outputFilePrefix = location;
-//            this.setProcess = set;
-//        }
-//        
         
         public void onVideoPicture(IVideoPictureEvent event){
             if(event.getStreamIndex() != mVideoStreamIndex){
@@ -74,8 +66,8 @@ public class ImageFromVideo extends MediaListenerAdapter {
         
         private String dumpImageToFile(BufferedImage image, int sec){
             try{
-                String outputFilename = outputFilePrefix + setProcess + sec + ".jpg";
-                ImageIO.write(image, "jpg", new File(outputFilename));
+                String outputFilename = outputFilePrefix + setProcess + sec + ".png";
+                ImageIO.write(image, "png", new File(outputFilename));
                 return outputFilename;
             }catch(IOException e){
                 e.printStackTrace();

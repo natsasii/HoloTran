@@ -5,14 +5,14 @@ import marvin.color.MarvinColorModelConverter;
 
 public class GreenScreenProcess {
 
-    String pathIn;
-    String pathOut;
+    private String pathIn;
+    private String pathOut;
 
     public GreenScreenProcess(String input){
         this.pathIn = input;
-        input = input.substring(0, input.length() - 3);
-        this.pathOut = input + "png";
-//        this.pathOut = input;
+//        input = input.substring(0, input.length() - 3);
+//        this.pathOut = input + "png";
+        this.pathOut = input;
         mainFunction();
     }
 
