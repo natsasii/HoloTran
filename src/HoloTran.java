@@ -14,12 +14,13 @@ public class HoloTran {
     // private static String b = "C:\\Users\\Dark\\Downloads\\Video\\Balto - Steele and Balto.mp4";
     private static String b = "C:\\Users\\Dark\\Downloads\\Video\\3D.mp4";
     private static String c = "C:\\Users\\Dark\\Downloads\\Video\\out\\";
+    private static String nameOutput = "555";
 
     public static void main(String[] args) {
         HoloTranView theView = new HoloTranView();
         HoloTranModel theModel = new HoloTranModel();
-        theModel.convertVideoHoloTran(a, b, c);
-//        HoloTranController theController = new HoloTranController(theView, theModel);
+        theModel.convertVideoHoloTran(a, b, c, nameOutput);
+        HoloTranController theController = new HoloTranController(theView, theModel);
 //        theView.setVisible(true);
     }
     

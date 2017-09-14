@@ -8,26 +8,27 @@ public class HoloTranModel {
     private ArrayList<Integer> allLastSec = new ArrayList();
     private int min;
 
-    public void convertVideoHoloTran(String set, String location, String out) {
-//        ImageFromVideo upVideo = new ImageFromVideo("up", location, out);
-//        ImageFromVideo rightVideo = new ImageFromVideo("right", location, out);
-//        allLastSec.add(upVideo.getMaxSec());
-
+    public void convertVideoHoloTran(String set, String location, String out, String name) {
 
         ImageFromVideo tempVideo = ImageFromVideo.getInstance();
-        tempVideo.nextVideo(set, location, out);
+        tempVideo.nextVideo("up", location, out);
         allLastSec.add(tempVideo.getMaxSec());
-//
-//        ImageFromVideo rightVideo = new ImageFromVideo("right", location, out);
-//        allLastSec.add(rightVideo.getMaxSec());
-//
-//        ImageFromVideo downVideo = new ImageFromVideo("down", location, out);
-//        allLastSec.add(downVideo.getMaxSec());
+
+        tempVideo.nextVideo("down", location, out);
+        allLastSec.add(tempVideo.getMaxSec());
+
+        tempVideo.nextVideo("left", location, out);
+        allLastSec.add(tempVideo.getMaxSec());
+
+        tempVideo.nextVideo("right", location, out);
+        allLastSec.add(tempVideo.getMaxSec());
+
 
         min = minSec(allLastSec.stream().mapToInt(i -> i).toArray());
+
         ImagePosition thePosition = new ImagePosition(set, out, min);
-        new VideoFromImage("x311", thePosition.getLocationPocess(), out, min);
-//        System.out.println("" + min);
+
+        new VideoFromImage(name, thePosition.getLocationProcess(), out, min);
     }
 
     public int minSec(int[] input) {

@@ -23,7 +23,7 @@ public class ImagePosition {
         mainProcess();
     }
 
-    public String getLocationPocess() {
+    public String getLocationProcess() {
         return outputPrefix;
     }
 
@@ -43,30 +43,8 @@ public class ImagePosition {
         } catch (IOException e) {
 
         }
-
-
     }
 
-//    public ImagePosition(){
-//        try{
-//        BufferedImage imageUp = ImageIO.read(new File("C:/Users/BestDark/Desktop/a.jpg"));
-//        BufferedImage imageDown = ImageIO.read(new File("C:/Users/BestDark/Desktop/b.jpg"));
-//        BufferedImage imageLeft = ImageIO.read(new File("C:/Users/BestDark/Desktop/b.jpg"));
-//        BufferedImage imageRigth = ImageIO.read(new File("C:/Users/BestDark/Desktop/b.jpg"));
-//
-//        // setPosition(imageUp, imageDown, imageBase);
-//        setPosition(imageUp, imageDown, imageLeft, imageRigth, imageBase);
-//
-//        ImageIO.write(imageBase, "PNG", new File("C:/Users/BestDark/Desktop/output.PNG"));
-//        }catch (IOException e){
-//
-//        }
-//
-//    }
-//
-//    public static void main(String[] args){
-//        new ImagePosition();
-//    }
 
     public void setPosition(BufferedImage imageUp, BufferedImage imageDown, BufferedImage imageLeft, BufferedImage imageRight, BufferedImage imageBase){
         Graphics2D g = imageBase.createGraphics();        

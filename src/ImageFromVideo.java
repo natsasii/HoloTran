@@ -19,19 +19,19 @@ public class ImageFromVideo extends MediaListenerAdapter {
     private static String setProcess;
     private static int maxSec;
 
-    private static int mVideoStreamIndex = -1;
+    private int mVideoStreamIndex = -1;
 
     private static ImageFromVideo imageFromVideo;
 
-    private static long mLastPtsWrite = Global.NO_PTS;
+    private long mLastPtsWrite = Global.NO_PTS;
     public static final long MICRO_SECONDS_BETWEEN_FRAMES = (long)(Global.DEFAULT_PTS_PER_SECOND * SECONDS_BETWEEN_FRAMES);
 
-    public ImageFromVideo(/*String set, String input, String output*/){
+//    public ImageFromVideo(String set, String input, String output){
 //        this.inputFile = input;
 //        this.outputFilePrefix = output;
 //        this.setProcess = set;
 //        mainFunction();
-    }
+//    }
 
     public static ImageFromVideo getInstance(){
         if(imageFromVideo == null){
@@ -40,7 +40,7 @@ public class ImageFromVideo extends MediaListenerAdapter {
 
         return imageFromVideo;
     }
-
+//
     public void nextVideo(String set, String input, String output) {
         this.inputFile = input;
         this.outputFilePrefix = output;
@@ -51,12 +51,8 @@ public class ImageFromVideo extends MediaListenerAdapter {
     public void mainFunction() {
         IMediaReader mediaReader = ToolFactory.makeReader(inputFile);
         mediaReader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
-        mediaReader.addListener(new ImageSnapListener());
+        mediaReader.addListener(new ImageSnapListener(mLastPtsWrite, mVideoStreamIndex));
         while (mediaReader.readPacket() == null);
-
-
-        mediaReader.removeListener(this);
-        mediaReader.close();
     }
 
     public int getMaxSec() {
@@ -64,7 +60,13 @@ public class ImageFromVideo extends MediaListenerAdapter {
     }
 
     private static class ImageSnapListener extends MediaListenerAdapter{
+        long mLastPtsWrite;
+        int mVideoStreamIndex;
 
+        ImageSnapListener(long index, int num){
+            this.mLastPtsWrite = index;
+            this.mVideoStreamIndex = num;
+        }
 
         public void onVideoPicture(IVideoPictureEvent event){
             if(event.getStreamIndex() != mVideoStreamIndex){

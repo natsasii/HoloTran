@@ -14,10 +14,10 @@ import com.xuggle.xuggler.ICodec;
 public class VideoFromImage {
 
     private static Dimension screenBounds;
-    public static int indexVideo = 0;
-    private static final double FRAME_RATE = 50;
-
-    private static final int SECONDS_TO_RUN_FOR = 20;
+    public static int indexVideo;
+//    private static final double FRAME_RATE = 50;
+//
+//    private static final int SECONDS_TO_RUN_FOR = 20;
     private static String OUTPUT_FILE;
     private static String INPUT_LOCATION;
     private static String OUT_LOCATION;
@@ -28,6 +28,7 @@ public class VideoFromImage {
         this.OUT_LOCATION = out;
         this.OUTPUT_FILE = OUT_LOCATION + outputName + ".mp4";
         this.maxSec = num/2;
+        this.indexVideo = 0;
         mainFunction();
     }
     
