@@ -20,8 +20,12 @@ public class HoloTranController {
                 locationList.add(theView.getUpVideoLocation());
                 locationList.add(theView.getDownVideoLocation());
                 locationList.add(theView.getLeftVideoLocation());
-                locationList.add(theView.getRigthVideoLocation());
+                locationList.add(theView.getRightVideoLocation());
                 locationList.add(theView.getOutputVideoLocation());
+
+                theModel.addPath(locationList);
+                theModel.convertVideoHoloTran();
+//                locationList.clear();
 
             } catch(Exception ex) {
                 System.out.println(ex);

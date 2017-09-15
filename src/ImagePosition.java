@@ -16,8 +16,8 @@ public class ImagePosition {
 
     private static BufferedImage imageBase;
 
-    public ImagePosition(String set, String output, int number) {
-        this.inputLocation = output + set;
+    public ImagePosition(String output, int number) {
+        this.inputLocation = output;
         this.outputPrefix = output + "holoTran";
         this.maxNumber = number;
         mainProcess();
@@ -31,10 +31,10 @@ public class ImagePosition {
         try {
             for (int i = 0; i <= maxNumber; i += 2) {
                 imageBase = new BufferedImage(1920,1020,BufferedImage.TYPE_INT_RGB);
-                BufferedImage imageUp = ImageIO.read(new File(inputLocation + i + ".png"));
-                BufferedImage imageDown = ImageIO.read(new File(inputLocation + i + ".png"));
-                BufferedImage imageLeft = ImageIO.read(new File(inputLocation + i + ".png"));
-                BufferedImage imageRight = ImageIO.read(new File(inputLocation + i + ".png"));
+                BufferedImage imageUp = ImageIO.read(new File(inputLocation + "up" + i + ".png"));
+                BufferedImage imageDown = ImageIO.read(new File(inputLocation + "down" + i + ".png"));
+                BufferedImage imageLeft = ImageIO.read(new File(inputLocation + "left" + i + ".png"));
+                BufferedImage imageRight = ImageIO.read(new File(inputLocation + "right" + i + ".png"));
 
                 setPosition(imageUp, imageDown, imageLeft, imageRight, imageBase);
 

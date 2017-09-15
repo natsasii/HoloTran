@@ -15,7 +15,7 @@ public class VideoFromImage {
 
     private static Dimension screenBounds;
     public static int indexVideo;
-//    private static final double FRAME_RATE = 50;
+    private static final double FRAME_RATE = 50;
 //
 //    private static final int SECONDS_TO_RUN_FOR = 20;
     private static String OUTPUT_FILE;
@@ -40,16 +40,18 @@ public class VideoFromImage {
         long startTime = System.nanoTime();
 
         for (int index = 0; index < maxSec; index++) {
-
-            BufferedImage bgrScreen = getVideoImage();
-            System.out.println("time stamp = "+ (System.nanoTime() - startTime));
-            bgrScreen = convertToType(bgrScreen, BufferedImage.TYPE_3BYTE_BGR);
-            // encode the image to stream #0
-            //writer.encodeVideo(0, bgrScreen, (System.nanoTime() - startTime)/2,TimeUnit.NANOSECONDS);
-            // encode the image to stream #0
-            writer.encodeVideo(0, bgrScreen, System.nanoTime() - startTime,
-                    TimeUnit.NANOSECONDS);
-            // sleep for frame rate milliseconds
+            for(int i = 0; i < FRAME_RATE; i++) {
+                BufferedImage bgrScreen = getVideoImage();
+                System.out.println("time stamp = " + (System.nanoTime() - startTime));
+                bgrScreen = convertToType(bgrScreen, BufferedImage.TYPE_3BYTE_BGR);
+                // encode the image to stream #0
+                //writer.encodeVideo(0, bgrScreen, (System.nanoTime() - startTime)/2,TimeUnit.NANOSECONDS);
+                // encode the image to stream #0
+                writer.encodeVideo(0, bgrScreen, System.nanoTime() - startTime,
+                        TimeUnit.NANOSECONDS);
+                // sleep for frame rate milliseconds
+            }
+            indexVideo += 2;
             try {
                 Thread.sleep((long) (100));
             } catch (InterruptedException e) {
@@ -69,7 +71,6 @@ public class VideoFromImage {
             e.printStackTrace();
         }
         System.out.println(imgLoc.getName());
-        indexVideo += 2;
         return img;
     }
 
