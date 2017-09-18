@@ -15,7 +15,7 @@ public class VideoFromImage {
 
     private static Dimension screenBounds;
     public static int indexVideo;
-    private static final double FRAME_RATE = 50;
+//    private static final double FRAME_RATE = 3;
 //
 //    private static final int SECONDS_TO_RUN_FOR = 20;
     private static String OUTPUT_FILE;
@@ -27,7 +27,7 @@ public class VideoFromImage {
         this.INPUT_LOCATION = InputLocationName;
         this.OUT_LOCATION = out;
         this.OUTPUT_FILE = OUT_LOCATION + outputName + ".mp4";
-        this.maxSec = num/2;
+        this.maxSec = num;
         this.indexVideo = 0;
         mainFunction();
     }
@@ -40,7 +40,6 @@ public class VideoFromImage {
         long startTime = System.nanoTime();
 
         for (int index = 0; index < maxSec; index++) {
-            for(int i = 0; i < FRAME_RATE; i++) {
                 BufferedImage bgrScreen = getVideoImage();
                 System.out.println("time stamp = " + (System.nanoTime() - startTime));
                 bgrScreen = convertToType(bgrScreen, BufferedImage.TYPE_3BYTE_BGR);
@@ -50,8 +49,6 @@ public class VideoFromImage {
                 writer.encodeVideo(0, bgrScreen, System.nanoTime() - startTime,
                         TimeUnit.NANOSECONDS);
                 // sleep for frame rate milliseconds
-            }
-            indexVideo += 2;
             try {
                 Thread.sleep((long) (100));
             } catch (InterruptedException e) {
@@ -70,6 +67,7 @@ public class VideoFromImage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        indexVideo++;
         System.out.println(imgLoc.getName());
         return img;
     }

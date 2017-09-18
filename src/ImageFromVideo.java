@@ -3,6 +3,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.MediaListenerAdapter;
@@ -12,12 +13,13 @@ import com.xuggle.xuggler.Global;
 
 public class ImageFromVideo extends MediaListenerAdapter {
 
-    public static final double SECONDS_BETWEEN_FRAMES = 2;
+    public static final double SECONDS_BETWEEN_FRAMES = 0.33;
 
     private static String inputFile;
     private static String outputFilePrefix;
     private static String setProcess;
-    private static int maxSec;
+//    private static int maxSec;
+    private static ArrayList<Integer> allSec;
 
     private int mVideoStreamIndex = -1;
 
@@ -45,6 +47,7 @@ public class ImageFromVideo extends MediaListenerAdapter {
         this.inputFile = input;
         this.outputFilePrefix = output;
         this.setProcess = set;
+        allSec = new ArrayList<>();
         mainFunction();
     }
 
@@ -55,9 +58,14 @@ public class ImageFromVideo extends MediaListenerAdapter {
         while (mediaReader.readPacket() == null);
     }
 
-    public int getMaxSec() {
-        return maxSec;
+//    public int getMaxSec() {
+//        return maxSec;
+//    }
+
+    public ArrayList<Integer> getAllSec() {
+        return allSec;
     }
+
 
     private static class ImageSnapListener extends MediaListenerAdapter{
         long mLastPtsWrite;
@@ -83,7 +91,7 @@ public class ImageFromVideo extends MediaListenerAdapter {
 
             if(event.getTimeStamp() - mLastPtsWrite >= MICRO_SECONDS_BETWEEN_FRAMES){
                 double seconds = ((double) event.getTimeStamp()) / Global.DEFAULT_PTS_PER_SECOND;
-                String outputFilename = dumpImageToFile(event.getImage(), (int)seconds);
+                String outputFilename = dumpImageToFile(event.getImage(), seconds);
                 new GreenScreenProcess(outputFilename);
                 System.out.printf("Elapsed time of %6.3f seconds wrote: %s \n", seconds, outputFilename);
 
@@ -91,11 +99,13 @@ public class ImageFromVideo extends MediaListenerAdapter {
             }
         }
 
-        private String dumpImageToFile(BufferedImage image, int sec){
+        private String dumpImageToFile(BufferedImage image, double sec){
             try{
-                String outputFilename = outputFilePrefix + setProcess + sec + ".png";
+                sec *= 1000;
+                String outputFilename = outputFilePrefix + setProcess + (int)sec + ".png";
                 ImageIO.write(image, "png", new File(outputFilename));
-                maxSec = sec;
+//                maxSec = (int)sec;
+                allSec.add((int)sec);
                 return outputFilename;
             }catch(IOException e){
                 e.printStackTrace();

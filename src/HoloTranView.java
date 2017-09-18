@@ -255,11 +255,11 @@ public class HoloTranView extends JFrame {
 
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
 //                jTextField5ActionPerformed(evt);
-            }
-        });
+//            }
+//        });
 
         jButton6.setBackground(new java.awt.Color(204, 204, 255));
         jButton6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

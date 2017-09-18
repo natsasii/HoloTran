@@ -4,22 +4,33 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class ImagePosition {
-    private static int width = 360;
+    private static int width  = 360;
     private static int height = 244;
+//    private static int width  = 720;
+//    private static int height = 488;
 
     private static String outputPrefix;
     private static String inputLocation;
+    private static ArrayList<Integer> upAllSec;
+    private static ArrayList<Integer> downAllSec;
+    private static ArrayList<Integer> leftAllSec;
+    private static ArrayList<Integer> rightAllSec;
     private static int maxNumber;
 
     private static BufferedImage imageBase;
 
-    public ImagePosition(String output, int number) {
+    public ImagePosition(String output, int number, ArrayList up, ArrayList down, ArrayList left, ArrayList right) {
         this.inputLocation = output;
         this.outputPrefix = output + "holoTran";
         this.maxNumber = number;
+        upAllSec = new ArrayList<>(up);
+        downAllSec = new ArrayList<>(down);
+        leftAllSec = new ArrayList<>(left);
+        rightAllSec = new ArrayList<>(right);
         mainProcess();
     }
 
@@ -29,12 +40,12 @@ public class ImagePosition {
 
     public void mainProcess() {
         try {
-            for (int i = 0; i <= maxNumber; i += 2) {
+            for (int i = 0; i < maxNumber; i++) {
                 imageBase = new BufferedImage(1920,1020,BufferedImage.TYPE_INT_RGB);
-                BufferedImage imageUp = ImageIO.read(new File(inputLocation + "up" + i + ".png"));
-                BufferedImage imageDown = ImageIO.read(new File(inputLocation + "down" + i + ".png"));
-                BufferedImage imageLeft = ImageIO.read(new File(inputLocation + "left" + i + ".png"));
-                BufferedImage imageRight = ImageIO.read(new File(inputLocation + "right" + i + ".png"));
+                BufferedImage imageUp = ImageIO.read(new File(inputLocation + "up" + upAllSec.get(i) + ".png"));
+                BufferedImage imageDown = ImageIO.read(new File(inputLocation + "down" + downAllSec.get(i) + ".png"));
+                BufferedImage imageLeft = ImageIO.read(new File(inputLocation + "left" + leftAllSec.get(i) + ".png"));
+                BufferedImage imageRight = ImageIO.read(new File(inputLocation + "right" + rightAllSec.get(i) + ".png"));
 
                 setPosition(imageUp, imageDown, imageLeft, imageRight, imageBase);
 
