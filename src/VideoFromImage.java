@@ -15,9 +15,6 @@ public class VideoFromImage {
 
     private static Dimension screenBounds;
     public static int indexVideo;
-//    private static final double FRAME_RATE = 3;
-//
-//    private static final int SECONDS_TO_RUN_FOR = 20;
     private static String OUTPUT_FILE;
     private static String INPUT_LOCATION;
     private static String OUT_LOCATION;
@@ -43,12 +40,8 @@ public class VideoFromImage {
                 BufferedImage bgrScreen = getVideoImage();
                 System.out.println("time stamp = " + (System.nanoTime() - startTime));
                 bgrScreen = convertToType(bgrScreen, BufferedImage.TYPE_3BYTE_BGR);
-                // encode the image to stream #0
-                //writer.encodeVideo(0, bgrScreen, (System.nanoTime() - startTime)/2,TimeUnit.NANOSECONDS);
-                // encode the image to stream #0
                 writer.encodeVideo(0, bgrScreen, System.nanoTime() - startTime,
                         TimeUnit.NANOSECONDS);
-                // sleep for frame rate milliseconds
             try {
                 Thread.sleep((long) (100));
             } catch (InterruptedException e) {
@@ -72,19 +65,13 @@ public class VideoFromImage {
         return img;
     }
 
-    public static BufferedImage convertToType(BufferedImage sourceImage,
-            int targetType) {
+    public static BufferedImage convertToType(BufferedImage sourceImage, int targetType) {
 
         BufferedImage image;
 
-        // if the source image is already the target type, return the source
-        // image
         if (sourceImage.getType() == targetType) {
             image = sourceImage;
-        }
-        // otherwise create a new image of the target type and draw the new
-        // image
-        else {
+        } else {
             image = new BufferedImage(sourceImage.getWidth(),
                     sourceImage.getHeight(), targetType);
             image.getGraphics().drawImage(sourceImage, 0, 0, null);

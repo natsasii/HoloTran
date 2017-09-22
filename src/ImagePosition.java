@@ -39,7 +39,7 @@ public class ImagePosition {
     public void mainProcess() {
         try {
             for (int i = 0; i < maxNumber; i++) {
-                imageBase = new BufferedImage(1920,1020,BufferedImage.TYPE_INT_RGB);
+                imageBase = new BufferedImage(1920,1080,BufferedImage.TYPE_INT_RGB);
                 BufferedImage imageUp = ImageIO.read(new File(inputLocation + "up" + upAllSec.get(i) + ".png"));
                 BufferedImage imageDown = ImageIO.read(new File(inputLocation + "down" + downAllSec.get(i) + ".png"));
                 BufferedImage imageLeft = ImageIO.read(new File(inputLocation + "left" + leftAllSec.get(i) + ".png"));
@@ -56,33 +56,49 @@ public class ImagePosition {
 
 
     public void setPosition(BufferedImage imageUp, BufferedImage imageDown, BufferedImage imageLeft, BufferedImage imageRight, BufferedImage imageBase){
-        Graphics2D g = imageBase.createGraphics();        
-        
-        // set image up
-        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians (0), imageUp.getWidth() / 2, imageUp.getHeight() / 2);
-        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-//        g.drawImage(op.filter(imageUp, null), (imageBase.getWidth() - width) / 2, imageBase.getHeight() / 8, width, height, null);
-        g.drawImage(op.filter(imageUp, null), (imageBase.getWidth() - width) / 2, imageBase.getHeight() / 8, width, height, null);
-        
-        //set image down
-        tx = AffineTransform.getRotateInstance(Math.toRadians (180), imageDown.getWidth() / 2, imageDown.getHeight() / 2);
-        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-//        g.drawImage(op.filter(imageDown, null), (imageBase.getWidth() - width) / 2, (imageBase.getHeight() * 5) / 8, width, height, null);
-        g.drawImage(op.filter(imageDown, null), (imageBase.getWidth() - width) / 2, (imageBase.getHeight() * 5) / 8, width, height, null);
 
-        //set image left
-        tx = AffineTransform.getRotateInstance(Math.toRadians (270), imageLeft.getWidth() / 2, imageLeft.getHeight() / 2);
-        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        g.drawImage(op.filter(imageLeft,  null), (imageBase.getWidth() * 2) / 8, (imageBase.getHeight()- width) / 2, width, height, null);
-//        g.drawImage(op.filter(imageLeft,  null), (imageBase.getWidth() / 2) - ((height * 5) / 2), (imageBase.getHeight()- width) / 2, height*3/2, width, null);
-        
-        //set image right
-        tx = AffineTransform.getRotateInstance(Math.toRadians (90), imageRight.getWidth() / 2 , imageRight.getHeight() / 2);
-        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        g.drawImage(op.filter(imageRight, null), (imageBase.getWidth() * 5 ) / 8, (imageBase.getHeight()- width) / 2, width, height, null);
-//        g.drawImage(op.filter(imageRight, null), (imageBase.getWidth() / 2) + ((height / 3) * 2), (imageBase.getHeight()- width) / 2, height*3/2, width, null);
+        int halfWidth = imageBase.getWidth() / 2;
+        int halfHeight = imageBase.getHeight() / 2;
 
+        int xc = halfWidth - (width / 2);
+        int y1 = (halfHeight - height) / 2;
+        int y2 = halfHeight + (height / 2);
+
+        int yc = halfHeight - (width / 2);
+        int x1 = ((halfWidth - height*3/2) / 4) * 3;
+        int x2 = halfWidth + ((height*3/2) / 8);
+
+        Graphics2D g = imageBase.createGraphics();
+
+        rotateFunction(imageUp, 0, 1, xc, y1, g);
+        rotateFunction(imageDown, 180, 1, xc, y2, g);
+        rotateFunction(imageLeft, 3, 0.75, x1, yc, g);
+        rotateFunction(imageRight, 90, 1.25, x2, yc, g);
         g.dispose();
     }
-    
+
+    public void rotateFunction(BufferedImage input, int quadrants, double scale, int x, int y, Graphics2D g){
+        AffineTransform tx = new AffineTransform();
+        if(quadrants == 3) {
+            tx = AffineTransform.getQuadrantRotateInstance(quadrants, input.getWidth() / 2, input.getHeight() / 2);
+        } else if (quadrants == 90) {
+            tx.translate(input.getWidth() / 2, input.getHeight() / 2);
+            tx.rotate(Math.PI / 2);
+            tx.translate(-input.getHeight() / 2, -input.getWidth() / 2);
+        } else {
+            tx = AffineTransform.getRotateInstance(Math.toRadians (quadrants), input.getWidth() / 2, input.getHeight() / 2);
+        }
+
+        tx.scale(scale, scale);
+
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+        if(quadrants == 3 || quadrants == 90) {
+            g.drawImage(op.filter(input, null), x, y, height*3/2, width, null);
+        } else {
+            g.drawImage(op.filter(input, null), x, y, width, height, null);
+        }
+    }
+
 }

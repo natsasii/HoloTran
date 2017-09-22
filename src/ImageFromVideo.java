@@ -13,13 +13,13 @@ import com.xuggle.xuggler.Global;
 
 public class ImageFromVideo extends MediaListenerAdapter {
 
-//    public static final double SECONDS_BETWEEN_FRAMES = 0.33;
+
     public static final double SECONDS_BETWEEN_FRAMES = 0.1;
 
     private static String inputFile;
     private static String outputFilePrefix;
     private static String setProcess;
-//    private static int maxSec;
+
     private static ArrayList<Integer> allSec;
 
     private int mVideoStreamIndex = -1;
@@ -29,13 +29,6 @@ public class ImageFromVideo extends MediaListenerAdapter {
     private long mLastPtsWrite = Global.NO_PTS;
     public static final long MICRO_SECONDS_BETWEEN_FRAMES = (long)(Global.DEFAULT_PTS_PER_SECOND * SECONDS_BETWEEN_FRAMES);
 
-//    public ImageFromVideo(String set, String input, String output){
-//        this.inputFile = input;
-//        this.outputFilePrefix = output;
-//        this.setProcess = set;
-//        mainFunction();
-//    }
-
     public static ImageFromVideo getInstance(){
         if(imageFromVideo == null){
             imageFromVideo = new ImageFromVideo();
@@ -43,7 +36,7 @@ public class ImageFromVideo extends MediaListenerAdapter {
 
         return imageFromVideo;
     }
-//
+
     public void nextVideo(String set, String input, String output) {
         this.inputFile = input;
         this.outputFilePrefix = output;
@@ -58,10 +51,6 @@ public class ImageFromVideo extends MediaListenerAdapter {
         mediaReader.addListener(new ImageSnapListener(mLastPtsWrite, mVideoStreamIndex));
         while (mediaReader.readPacket() == null);
     }
-
-//    public int getMaxSec() {
-//        return maxSec;
-//    }
 
     public ArrayList<Integer> getAllSec() {
         return allSec;
@@ -105,7 +94,6 @@ public class ImageFromVideo extends MediaListenerAdapter {
                 sec *= 1000;
                 String outputFilename = outputFilePrefix + setProcess + (int)sec + ".png";
                 ImageIO.write(image, "png", new File(outputFilename));
-//                maxSec = (int)sec;
                 allSec.add((int)sec);
                 return outputFilename;
             }catch(IOException e){
