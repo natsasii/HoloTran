@@ -13,7 +13,8 @@ import com.xuggle.xuggler.Global;
 
 public class ImageFromVideo extends MediaListenerAdapter {
 
-    public static final double SECONDS_BETWEEN_FRAMES = 0.33;
+//    public static final double SECONDS_BETWEEN_FRAMES = 0.33;
+    public static final double SECONDS_BETWEEN_FRAMES = 0.1;
 
     private static String inputFile;
     private static String outputFilePrefix;

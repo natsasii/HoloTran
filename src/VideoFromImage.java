@@ -36,7 +36,7 @@ public class VideoFromImage {
         final IMediaWriter writer = ToolFactory.makeWriter(OUTPUT_FILE);
         screenBounds = Toolkit.getDefaultToolkit().getScreenSize();
         writer.addVideoStream(0, 0, ICodec.ID.CODEC_ID_MPEG4,
-                screenBounds.width / 2, screenBounds.height / 2);
+                screenBounds.width , screenBounds.height );
         long startTime = System.nanoTime();
 
         for (int index = 0; index < maxSec; index++) {
