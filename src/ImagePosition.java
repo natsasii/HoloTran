@@ -17,11 +17,12 @@ public class ImagePosition {
     private static ArrayList<Integer> downAllSec;
     private static ArrayList<Integer> leftAllSec;
     private static ArrayList<Integer> rightAllSec;
+    private static ArrayList<String> allPosition;
     private static int maxNumber;
 
     private static BufferedImage imageBase;
 
-    public ImagePosition(String output, int number, ArrayList up, ArrayList down, ArrayList left, ArrayList right) {
+    public ImagePosition(String output, int number, ArrayList up, ArrayList down, ArrayList left, ArrayList right, ArrayList position) {
         this.inputLocation = output;
         this.outputPrefix = output + "holoTran";
         this.maxNumber = number;
@@ -29,6 +30,7 @@ public class ImagePosition {
         downAllSec = new ArrayList<>(down);
         leftAllSec = new ArrayList<>(left);
         rightAllSec = new ArrayList<>(right);
+        allPosition = new ArrayList<>(position);
         mainProcess();
     }
 
@@ -40,10 +42,10 @@ public class ImagePosition {
         try {
             for (int i = 0; i < maxNumber; i++) {
                 imageBase = new BufferedImage(1920,1080,BufferedImage.TYPE_INT_RGB);
-                BufferedImage imageUp = ImageIO.read(new File(inputLocation + "up" + upAllSec.get(i) + ".png"));
-                BufferedImage imageDown = ImageIO.read(new File(inputLocation + "down" + downAllSec.get(i) + ".png"));
-                BufferedImage imageLeft = ImageIO.read(new File(inputLocation + "left" + leftAllSec.get(i) + ".png"));
-                BufferedImage imageRight = ImageIO.read(new File(inputLocation + "right" + rightAllSec.get(i) + ".png"));
+                BufferedImage imageUp = ImageIO.read(new File(inputLocation + allPosition.get(0) + upAllSec.get(i) + ".png"));
+                BufferedImage imageDown = ImageIO.read(new File(inputLocation + allPosition.get(1) + downAllSec.get(i) + ".png"));
+                BufferedImage imageLeft = ImageIO.read(new File(inputLocation + allPosition.get(2) + leftAllSec.get(i) + ".png"));
+                BufferedImage imageRight = ImageIO.read(new File(inputLocation + allPosition.get(3) + rightAllSec.get(i) + ".png"));
 
                 setPosition(imageUp, imageDown, imageLeft, imageRight, imageBase);
 
@@ -92,7 +94,6 @@ public class ImagePosition {
         tx.scale(scale, scale);
 
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
         if(quadrants == 3 || quadrants == 90) {
             g.drawImage(op.filter(input, null), x, y, height*3/2, width, null);

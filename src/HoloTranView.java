@@ -3,8 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.File;
-import javax.swing.JFrame;
-import javax.swing.JFileChooser;
+import javax.swing.*;
 
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,19 +11,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class HoloTranView extends JFrame {
 
-    private static String fullPath1;
-    private static String fullPath2;
-    private static String fullPath3;
-    private static String fullPath4;
-    private static String fullPath5;
+    private static String fullPath;
 
     HoloTranView() {
         super("Convert Video to Hologram");
-        fullPath1 = "";
-        fullPath2 = "";
-        fullPath3 = "";
-        fullPath4 = "";
-        fullPath5 = "";
+        fullPath = "";
         initComponents();
     }
 
@@ -90,17 +81,7 @@ public class HoloTranView extends JFrame {
 
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                FileFilter filter = new FileNameExtensionFilter("Videos","mp4");
-                fileopen.addChoosableFileFilter(filter);
-                fileopen.setAcceptAllFileFilterUsed(false);
-                int ret = fileopen.showDialog(null, "Choose file");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    jTextField1.setText(fileopen.getSelectedFile().toString());
-                    File file1 = fileopen.getSelectedFile();
-                    fullPath1 = file1.getAbsolutePath();
-
-                }
+                fileChoose(1);
             }
         });
 
@@ -124,16 +105,7 @@ public class HoloTranView extends JFrame {
         jButton2.setText("...");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                FileFilter filter = new FileNameExtensionFilter("Videos","mp4");
-                fileopen.addChoosableFileFilter(filter);
-                fileopen.setAcceptAllFileFilterUsed(false);
-                int ret = fileopen.showDialog(null, "Choose file");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    jTextField2.setText(fileopen.getSelectedFile().toString());
-                    File file2 = fileopen.getSelectedFile();
-                    fullPath2 = file2.getAbsolutePath();
-                }
+                fileChoose(2);
             }
         });
 
@@ -141,16 +113,7 @@ public class HoloTranView extends JFrame {
         jButton3.setText("...");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                FileFilter filter = new FileNameExtensionFilter("Videos","mp4");
-                fileopen.addChoosableFileFilter(filter);
-                fileopen.setAcceptAllFileFilterUsed(false);
-                int ret = fileopen.showDialog(null, "Choose file");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    jTextField3.setText(fileopen.getSelectedFile().toString());
-                    File file3 = fileopen.getSelectedFile();
-                    fullPath3 = file3.getAbsolutePath();
-                }
+                fileChoose(3);
             }
         });
 
@@ -158,16 +121,7 @@ public class HoloTranView extends JFrame {
         jButton4.setText("...");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                FileFilter filter = new FileNameExtensionFilter("Videos","mp4");
-                fileopen.addChoosableFileFilter(filter);
-                fileopen.setAcceptAllFileFilterUsed(false);
-                int ret = fileopen.showDialog(null, "Choose file");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    jTextField4.setText(fileopen.getSelectedFile().toString());
-                    File file4 = fileopen.getSelectedFile();
-                    fullPath4 = file4.getAbsolutePath();
-                }
+                fileChoose(4);
             }
 
         });
@@ -241,16 +195,7 @@ public class HoloTranView extends JFrame {
         jButton5.setText("...");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-
-                fileopen.setAcceptAllFileFilterUsed(false);
-                fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                int ret = fileopen.showDialog(null, "Choose");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    jTextField5.setText(fileopen.getSelectedFile().toString());
-                    File file5 = fileopen.getSelectedFile();
-                    fullPath5 = file5.getAbsolutePath();
-                }
+                fileChoose(5);
             }
 
         });
@@ -326,24 +271,67 @@ public class HoloTranView extends JFrame {
 
 
     public String getUpVideoLocation() {
-        return this.fullPath3;
+        fullPath = jTextField3.getText();
+        return this.fullPath;
     }
 
     public String getDownVideoLocation() {
-        return this.fullPath4;
+        fullPath = jTextField4.getText();
+        return this.fullPath;
     }
 
     public String getLeftVideoLocation() {
-        return this.fullPath1;
+        fullPath = jTextField1.getText();
+        return this.fullPath;
     }
 
     public String getRightVideoLocation() {
-        return this.fullPath2;
+        fullPath = jTextField2.getText();
+        return this.fullPath;
     }
 
     public String getOutputVideoLocation() {
-        return this.fullPath5 + "//";
+        fullPath = jTextField5.getText();
+        return this.fullPath + "//";
     }
+
+    private void fileChoose(int input) {
+        JFileChooser fileopen = new JFileChooser();
+        switch (input) {
+            case 5:     break;
+            default:    FileFilter filter = new FileNameExtensionFilter("Videos","mp4");
+                        fileopen.addChoosableFileFilter(filter);
+                        break;
+        }
+
+        fileopen.setAcceptAllFileFilterUsed(false);
+
+        int ret;
+
+        switch (input) {
+            case 5:     fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        ret = fileopen.showDialog(null, "Choose");
+                        break;
+            default:    ret = fileopen.showDialog(null, "Choose file");
+                        break;
+        }
+
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            switch (input) {
+                case 1: jTextField1.setText(fileopen.getSelectedFile().toString());
+                        break;
+                case 2: jTextField2.setText(fileopen.getSelectedFile().toString());
+                        break;
+                case 3: jTextField3.setText(fileopen.getSelectedFile().toString());
+                        break;
+                case 4: jTextField4.setText(fileopen.getSelectedFile().toString());
+                        break;
+                case 5: jTextField5.setText(fileopen.getSelectedFile().toString());
+                        break;
+            }
+        }
+    }
+
 
     void addHoloTranListener(ActionListener listenForHoloTran) {
         jButton6.addActionListener(listenForHoloTran);
